@@ -1,0 +1,135 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F4F4F9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: #FFFFFF;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+h2 {
+    text-align: center;
+    color: #6A5ACD;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin: 10px 0 5px;
+    color: #333333;
+    font-weight: bold;
+}
+
+input {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #6A5ACD;
+    border-radius: 4px;
+    background-color: #E6E6FA;
+}
+
+button {
+    background: #6A5ACD;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #483D8B;
+}
+
+.logo {
+    width: 90px;
+    height: 90px;
+    top:0px;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background-color: #6A5ACD;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    color: white;
+}
+
+.navbar {
+    width: 100%;
+    background-color: #483D8B;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 0;
+    position: fixed;
+    top: 100px; /* Adjusted to avoid overlap with header */
+    left: 0;
+    right: 0;
+    z-index: 1001;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #FFD700;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 6px;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.navbar a:hover {
+    background: #FFD700;
+    color: #483D8B;
+}
+
+.login-options {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-options a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #6A5ACD;
+    font-weight: bold;
+}
+
+.login-options a:hover {
+    color: #483D8B;
+}
+
+#message {
+    text-align: center;
+    margin-top: 10px;
+    color: red;
+}
