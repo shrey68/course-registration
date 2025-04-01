@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            color: black
+        }
+        th {
+         background-color: #6A5ACD;
+         color: white;
+        }
+        h2 {
+         color: #6A5ACD;
+         text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>Faculty Details</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Cabin Number</th>
+        </tr>
+        <script>
+            const names = ["Ramesh Kumar", "Suresh Reddy", "Anita Sharma", "Priya Iyer", "Rajesh Verma", "Deepak Mehta", "Sunil Patil", "Amitabh Singh", "Geeta Joshi", "Vikram Nair", "Sanjay Malhotra", "Neha Bansal", "Meera Menon", "Kiran Rao", "Swati Kulkarni", "Arun Choudhary", "Manoj Pandey", "Shalini Mishra", "Pooja Desai", "Varun Saxena", "Alok Agrawal", "Nidhi Kapoor", "Ravi Shetty", "Mahesh Tiwari", "Sneha Naik", "Vinod Joshi", "Madhavi Patankar", "Sakshi Gokhale", "Gaurav Chatterjee", "Usha Krishnan", "Harish Pillai", "Vishal Dubey", "Ankita Dutta", "Jatin Arora", "Krishna Swamy", "Bhavesh Shah", "Niranjan Rao", "Ritika Sinha", "Avinash Sen", "Rashmi Gupta", "Santosh Yadav", "Kavita Shinde", "Karthik Narayan", "Pankaj Das", "Sudha Balakrishnan", "Pallavi Joshi", "Devika Iyer", "Chirag Bhatt", "Rajeev Nanda", "Meghna Roy"];
+            const departments = ["SCOPE", "SENSE", "SELECT", "VITNESS"];
+            const blocks = ["AB1", "AB2", "AB3", "Delta Block", "Admin Block"];
+            const floors = ["1st Floor", "2nd Floor", "3rd Floor", "4th Floor"];
+            
+            names.forEach(name => {
+                let email = name.toLowerCase().replace(" ", "") + "@vit.ac.in";
+                let department = departments[Math.floor(Math.random() * departments.length)];
+                let block = blocks[Math.floor(Math.random() * blocks.length)];
+                let floor = floors[Math.floor(Math.random() * floors.length)];
+                let cabin = Math.floor(Math.random() * 25) + 1;
+                let cabinNumber = `${block}, ${floor}, Cabin ${cabin}`;
+                
+                document.write(`<tr><td>${name}</td><td>${email}</td><td>${department}</td><td>${cabinNumber}</td></tr>`);
+            });
+            if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+      }
+        </script>
+    </table>
+</body>
+</html>

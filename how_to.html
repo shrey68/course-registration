@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Registration Instructions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #6A5ACD;
+        }
+        ol {
+            padding-left: 20px;
+        }
+        li {
+            font-size: 18px;
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #6A5ACD;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>How to Register for a Course</h2>
+        <ol>
+            <li>Enter your <span class="highlight">VTOP login credentials</span>.</li>
+            <li>Search for the course required using the <span class="highlight">course code</span> or <span class="highlight">course name</span>.</li>
+            <li>Select the desired <span class="highlight">faculty and slot</span> for that course based on availability by clicking the button <span class="highlight">“Register”</span>.</li>
+            <li>Verify if it is properly added in the <span class="highlight">timetable</span> or not.</li>
+            <li>Repeat for all required courses.</li>
+        </ol>
+    </div>
+    <script>
+      if (localStorage.getItem('darkMode') === 'enabled') {
+        document.body.classList.add('dark-mode');
+    }
+    </script>
+</body>
+</html>
