@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+    <header>
+        <img src="vit_logo.jpg" alt="VIT Logo" class="logo">
+        <h1>VIT Vellore Institute of Technology</h1>
+    </header>
+
+    <nav class="navbar">
+        <a href="faculty_info.html">Faculty Info</a>
+        <a href="how_to.html">How To</a>
+        <a href="about.html">About</a>
+        <a href="faqs.html">FAQs</a>
+        <a href="settings.html">Settings</a>
+    </nav>
+    
+    <div class="container">
+        <h2>Register</h2>
+        <form id="registrationForm">
+            <label for="regNumber">Registration Number:</label>
+            <input type="text" id="regNumber" name="regNumber" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Submit</button>
+        </form>
+        <p id="message"></p>
+    </div>
+    
+    <script>
+        document.getElementById("registrationForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const credentials = {
+                "23bps1086": "1086",
+                "23bps1156": "1156",
+                "23bps1124": "1124"
+            };
+    
+            const regNumber = document.getElementById("regNumber").value;
+            const password = document.getElementById("password").value;
+            const message = document.getElementById("message");
+    
+            if (credentials[regNumber] && credentials[regNumber] === password) {
+                message.textContent = "Registration successful!";
+                message.style.color = "green";
+                window.location.href = "courseSelect.html";
+            } else {
+                message.textContent = "Invalid username or password.";
+                message.style.color = "red";
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            let navLinks = document.querySelectorAll(".navbar a");
+            let currentUrl = window.location.pathname.split("/").pop();
+
+            navLinks.forEach(link => {
+                if (link.getAttribute("href") === currentUrl) {
+                    link.classList.add("active");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
