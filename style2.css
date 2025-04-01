@@ -1,0 +1,83 @@
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: white; /* White background */
+    color: #483D8B; /* Dark Slate Blue text */
+}
+
+h2 {
+    text-align: center;
+    color: #6A5ACD; /* Slate Blue */
+    margin-top: 2rem;
+}
+
+/* Search box styling */
+#searchBox {
+    display: block;
+    width: 80%;
+    max-width: 600px;
+    margin: 1rem auto;
+    padding: 10px;
+    border: 2px solid #6A5ACD; /* Slate Blue border */
+    border-radius: 8px;
+    color: white; /* White text */
+    background-color: #6A5ACD; /* Blue background */
+    font-size: 1rem;
+}
+
+#searchBox::placeholder {
+    color: white; /* White placeholder */
+}
+
+#searchBox:focus {
+    outline: none;
+    border-color: #FFD700; /* Gold on focus */
+}
+
+/* Table styling */
+table {
+    width: 90%;
+    margin: 2rem auto;
+    border-collapse: collapse;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+thead {
+    background-color: #6A5ACD; /* Slate Blue header */
+    color: white; /* White text */
+}
+
+tr:nth-child(even) {
+    background-color: #F8F8FF; /* Ghost White */
+}
+
+tr:hover {
+    background-color: #FFD700; /* Gold on hover */
+    color: #483D8B; /* Dark Slate Blue text */
+}
+
+/* Button styling */
+.select-btn {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: white;
+    background-color: #483D8B; /* Dark Slate Blue button */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.select-btn:hover {
+    background-color: #FFD700; /* Gold on hover */
+    color: #483D8B; /* Dark Slate Blue text */
+}
