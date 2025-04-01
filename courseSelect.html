@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Search</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+
+<body>
+    <h2>Search Courses</h2>
+    <input type="text" id="searchBox" placeholder="Enter Course Name or Course Code" onkeyup="searchCourses()">
+    <table>
+        <thead>
+            <tr>
+                <th>Course Code</th>
+                <th>Course Title</th>
+                <th>Course Type</th>
+                <th>Credits</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="courseTable"></tbody>
+    </table>
+
+    <script>
+        let courses = [];
+
+    
+        fetch('courseList.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load JSON');
+                }
+                return response.json();
+            })
+            .then(courseList => {
+                courses = courseList.courses;
+                displayCourses(courses);
+            })
+            .catch(error => console.error('Error loading JSON:', error));
+
+        
+        function searchCourses() {
+            const query = document.getElementById("searchBox").value.toLowerCase();
+            const filteredCourses = courses.filter(course =>
+                course.code.toLowerCase().includes(query) ||
+                course.title.toLowerCase().includes(query)
+            );
+            displayCourses(filteredCourses);
+        }
+
+        
+        function selectCourse(courseCode) {
+            alert(`Course ${courseCode} selected!`);
+            localStorage.setItem("selectedCourse",courseCode);
+            
+            const slotPages = {
+                
+                "BCHY101L": "BCHY101L.html",
+                "BMAT101L": "BMAT101L.html",
+                "BMAT102L": "BMAT102L.html"
+                
+            };
+
+            if (slotPages[courseCode]) {
+                window.location.href = slotPages[courseCode];
+            } else {
+                alert("Slot page not found for this course.");
+            }
+        }
+
+        function displayCourses(courseList) {
+            const tableBody = document.getElementById("courseTable");
+            tableBody.innerHTML = "";
+
+            courseList.forEach(course => {
+                const row = `
+                    <tr>
+                        <td>${course.code}</td>
+                        <td>${course.title}</td>
+                        <td>${course.type}</td>
+                        <td>${course.credits}</td>
+                        <td>
+                            <button class="select-btn" onclick="selectCourse('${course.code}')">Select</button>
+                        </td>
+                    </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+    </script>
+
+</body>
+
+</html>
