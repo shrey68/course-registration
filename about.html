@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Course Registration</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        nav {
+            background-color: #6A5ACD;
+            padding: 15px;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+        .about-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #6A5ACD;
+        }
+        ul, ol {
+            margin-left: 20px;
+        }
+        ul li, ol li {
+            margin: 10px 0;
+        }
+        a {
+            color: #6A5ACD;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .dark-mode {
+            background-color: #333 !important;
+            color: white !important;
+         }
+
+         .dark-mode .container {
+            background-color: #333 !important;
+            color: white !important;
+         }
+
+         .dark-mode h2, 
+         .dark-mode .highlight {
+            color: #FFD700 !important; /* Gold color for highlights */
+         }
+         .dark-mode .about-container {
+            background-color:#222;
+            color: #FFD700;
+         }
+
+    </style>
+</head>
+<body>
+    
+    <div class="about-container">
+        <h1>About Course Registration System</h1>
+        <p>Welcome to the <strong>Course Registration System</strong>, designed to streamline the process of enrolling in courses and managing academic schedules with ease.</p>
+        
+        <h2>Key Features</h2>
+        <ul>
+            <li><strong>Search Courses:</strong> Easily find courses by course code or name.</li>
+            <li><strong>View Class Availability:</strong> Check available seats, faculty, and class timings.</li>
+            <li><strong>One-Click Registration:</strong> Quickly enroll in desired courses.</li>
+            <li><strong>Timetable Management:</strong> View and manage your schedule seamlessly.</li>
+            <li><strong>Split-Screen Mode:</strong> Compare class options while viewing your timetable.</li>
+        </ul>
+        
+        <h2>How It Works</h2>
+        <ol>
+            <li>Login using your student credentials.</li>
+            <li>Search for courses using the search bar.</li>
+            <li>Select a course to view available faculty and seat details.</li>
+            <li>Confirm your registration with a single click.</li>
+            <li>Access your timetable anytime to manage your schedule.</li>
+        </ol>
+        
+        <h2>Need Help?</h2>
+        <p>If you have any questions or need assistance, feel free to contact our support team at <a href="mailto:support@university.edu">support@university.edu</a>.</p>
+    </div>
+</body>
+<script>
+   if (localStorage.getItem('darkMode') === 'enabled') {
+     document.body.classList.add('dark-mode');
+ }
+ </script>
+</html>

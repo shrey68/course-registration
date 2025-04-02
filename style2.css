@@ -56,7 +56,7 @@ thead {
 }
 
 tr:nth-child(even) {
-    background-color: #F8F8FF; /* Ghost White */
+    background-color: #131314; /* Ghost White */
 }
 
 tr:hover {
