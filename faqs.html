@@ -38,6 +38,23 @@
             color: #555;
             margin-top: 5px;
         }
+        .dark-mode {
+            background-color: #222 !important;
+            color: white !important;
+         }
+
+         .dark-mode .container {
+            background-color: #333 !important;
+            color: white !important;
+         }
+
+         .dark-mode h2, 
+         .dark-mode .highlight {
+            color: #FFD700 !important; /* Gold color for highlights */
+         }
+         .dark-mode .answer {
+            color: white;
+         }
     </style>
 </head>
 <body>
@@ -60,13 +77,10 @@
             <div class="answer">Yes, you can change it within your allotted course registration time, open slot time, or also during add and drop time.</div>
         </div>
     </div>
-<<<<<<< HEAD
     <script>
       if (localStorage.getItem('darkMode') === 'enabled') {
         document.body.classList.add('dark-mode');
     }
     </script>
-=======
->>>>>>> f4014082dc76a4645fb7838b83282fe64badea4b
 </body>
 </html>

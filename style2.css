@@ -81,3 +81,9 @@ tr:hover {
     background-color: #FFD700; /* Gold on hover */
     color: #483D8B; /* Dark Slate Blue text */
 }
+
+.dark-mode {
+    background-color: #222;
+    color: white;
+}
+

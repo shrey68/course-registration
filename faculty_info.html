@@ -29,6 +29,29 @@
          color: #6A5ACD;
          text-align: center;
         }
+        .dark-mode {
+            background-color: #222 !important;
+            color: white !important;
+         }
+
+         .dark-mode .container, .dark-mode table {
+            background-color: #333 !important;
+            color: white !important;
+         }
+         .dark-mode th {
+            background-color: #444 !important;
+            color: white !important;
+         }
+
+         .dark-mode td {
+            color: white !important;
+            border-color: #555 !important;
+         }
+
+         .dark-mode h2, 
+         .dark-mode .highlight {
+            color: #FFD700 !important; /* Gold color for highlights */
+         }
     </style>
 </head>
 <body>
@@ -56,12 +79,9 @@
                 
                 document.write(`<tr><td>${name}</td><td>${email}</td><td>${department}</td><td>${cabinNumber}</td></tr>`);
             });
-<<<<<<< HEAD
             if (localStorage.getItem('darkMode') === 'enabled') {
             document.body.classList.add('dark-mode');
       }
-=======
->>>>>>> f4014082dc76a4645fb7838b83282fe64badea4b
         </script>
     </table>
 </body>
