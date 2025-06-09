@@ -1,100 +1,743 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Search</title>
-    <link rel="stylesheet" href="style2.css">
+    <title>Course Registration System</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <h2>Search Courses</h2>
-    <input type="text" id="searchBox" placeholder="Enter Course Name or Course Code" onkeyup="searchCourses()">
-    <table>
-        <thead>
-            <tr>
-                <th>Course Code</th>
-                <th>Course Title</th>
-                <th>Course Type</th>
-                <th>Credits</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="courseTable"></tbody>
-    </table>
+    <div class="container">
+        <div class="header">
+            <h1>Course Registration System</h1>
+            <p>Select your courses and view your personalized timetable</p>
+        </div>
+        <div class="registration-container">
+            <div class="course-selection">
+                <h2>Course Selection</h2>
+                <div id="course-categories">
+                </div>
+                <div class="selected-courses">
+                    <h3>Selected Courses <span class="badge" id="course-count">0</span></h3>
+                    <div id="selected-courses-list">
+                    </div>
+                    <div class="credits-info">
+                        <p>Total Credits: <span id="total-credits">0</span>/27</p>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button class="btn" id="print-timetable">Print Timetable</button>
+                    <button class="btn btn-danger" id="clear-selections">Clear All</button>
+                </div>
+            </div>
+            
+            <div class="timetable-container">
+                <h2>Your Timetable</h2>
+                <div style="overflow-x: auto;">
+                    <table class="timetable" id="timetable">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Monday</th>
+                                <th>Tuesday</th>
+                                <th>Wednesday</th>
+                                <th>Thursday</th>
+                                <th>Friday</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        let courses = [];
+        const courseData = {
+    categories: [
+        { id: "dc", name: "Discipline Core" },
+        { id: "de", name: "Discipline Elective" },
+        { id: "oe", name: "Open Elective" },
+        { id: "dle", name: "Discipline Linked Elective" },
+        { id: "lab", name: "Laboratory Courses" }
+    ],
+    courses: {
+        "dc": [
+            {
+                id: "BMAT201L",
+                name: "Mathematics III",
+                credits: 4,
+                sections: [
+                    {
+                        instructor: "Dr. A.B. Smith",
+                        roomNo: "AB3-207",
+                        slots: ["MON-1", "WED-2"],
+                        code: "A1-BMAT201L-TH-AB3-207-ALL"
+                    },
+                    {
+                        instructor: "Dr. R.K. Patel",
+                        roomNo: "AB3-207",
+                        slots: ["FRI-3"],
+                        code: "TA1-BMAT201L-TH-AB3-207-ALL"
+                    },
+                    {
+                        instructor: "Dr. S. Sharma",
+                        roomNo: "AB3-208",
+                        slots: ["TUE-2", "THU-1"],
+                        code: "A2-BMAT201L-TH-AB3-208-ALL"
+                    }
+                ]
+            },
+            {
+                id: "BCSE421L",
+                name: "Computer Networks",
+                credits: 4,
+                sections: [
+                    {
+                        instructor: "Dr. T.N. Kumar",
+                        roomNo: "AB3-304",
+                        slots: ["MON-2", "WED-3"],
+                        code: "F1-BCSE421L-TH-AB3-304-ALL"
+                    },
+                    {
+                        instructor: "Dr. S.R. Jain",
+                        roomNo: "AB3-304",
+                        slots: ["FRI-4"],
+                        code: "TF1-BCSE421L-TH-AB3-304-ALL"
+                    },
+                    {
+                        instructor: "Dr. M. Verma",
+                        roomNo: "AB3-305",
+                        slots: ["TUE-3", "THU-2"],
+                        code: "F2-BCSE421L-TH-AB3-305-ALL"
+                    }
+                ]
+            },
+            {
+                id: "BCSE303L",
+                name: "Database Systems",
+                credits: 4,
+                sections: [
+                    {
+                        instructor: "Dr. L.M. Gupta",
+                        roomNo: "AB3-304",
+                        slots: ["MON-3", "THU-1"],
+                        code: "D1-BCSE303L-TH-AB3-304-ALL"
+                    },
+                    {
+                        instructor: "Dr. P.K. Singh",
+                        roomNo: "AB3-304",
+                        slots: ["WED-4"],
+                        code: "TD1-BCSE303L-TH-AB3-304-ALL"
+                    },
+                    {
+                        instructor: "Dr. R. Sharma",
+                        roomNo: "AB3-305",
+                        slots: ["TUE-4", "FRI-2"],
+                        code: "D2-BCSE303L-TH-AB3-305-ALL"
+                    }
+                ]
+            }
+        ],
+        "de": [
+            {
+                id: "BCSE302L",
+                name: "Theory of Computation",
+                credits: 3,
+                sections: [
+                    {
+                        instructor: "Dr. M.N. Roy",
+                        roomNo: "AB3-313",
+                        slots: ["WED-1", "FRI-2"],
+                        code: "C1-BCSE302L-TH-AB3-313-ALL"
+                    },
+                    {
+                        instructor: "Dr. S.K. Verma",
+                        roomNo: "AB3-313",
+                        slots: ["TUE-4"],
+                        code: "TC1-BCSE302L-TH-AB3-313-ALL"
+                    },
+                    {
+                        instructor: "Dr. A. Kumar",
+                        roomNo: "AB3-314",
+                        slots: ["MON-4", "THU-3"],
+                        code: "C2-BCSE302L-TH-AB3-314-ALL"
+                    }
+                ]
+            },
+            {
+                id: "BCSE205L",
+                name: "Data Structures and Algorithms",
+                credits: 4,
+                sections: [
+                    {
+                        instructor: "Dr. R.N. Das",
+                        roomNo: "AB3-305",
+                        slots: ["TUE-3", "FRI-1"],
+                        code: "E1-BCSE205L-TH-AB3-305-ALL"
+                    },
+                    {
+                        instructor: "Dr. A.K. Mishra",
+                        roomNo: "AB3-305",
+                        slots: ["THU-4"],
+                        code: "TE1-BCSE205L-TH-AB3-305-ALL"
+                    },
+                    {
+                        instructor: "Dr. P. Gupta",
+                        roomNo: "AB3-306",
+                        slots: ["MON-2", "WED-5"],
+                        code: "E2-BCSE205L-TH-AB3-306-ALL"
+                    }
+                ]
+            }
+        ],
+        "oe": [
+            {
+                id: "BSTS102P",
+                name: "Probability and Statistics",
+                credits: 3,
+                sections: [
+                    {
+                        instructor: "Dr. J.P. Tiwari",
+                        roomNo: "AB3-204",
+                        slots: ["MON-4", "TUE-1"],
+                        code: "B1-BSTS102P-SS-AB3-204-ALL"
+                    },
+                    {
+                        instructor: "Dr. S.S. Yadav",
+                        roomNo: "AB3-204",
+                        slots: ["THU-2"],
+                        code: "TB1-BSTS102P-SS-AB3-204-ALL"
+                    },
+                    {
+                        instructor: "Dr. K. Singh",
+                        roomNo: "AB3-205",
+                        slots: ["WED-3", "FRI-5"],
+                        code: "B2-BSTS102P-SS-AB3-205-ALL"
+                    }
+                ]
+            }
+        ],
+        "dle": [
+            {
+                id: "BCSE203E",
+                name: "Object Oriented Programming",
+                credits: 4,
+                sections: [
+                    {
+                        instructor: "Dr. K.L. Sharma",
+                        roomNo: "AB3-303",
+                        slots: ["MON-5"],
+                        code: "TG1-BCSE203E-ETH-AB3-303-ALL"
+                    },
+                    {
+                        instructor: "Dr. P.R. Bhat",
+                        roomNo: "AB3-612",
+                        slots: ["WED-7", "WED-8", "THU-9", "THU-10"],
+                        code: "L43-BCSE203E-ELA-AB3-612-ALL"
+                    },
+                    {
+                        instructor: "Dr. R. Kumar",
+                        roomNo: "AB3-613",
+                        slots: ["TUE-7", "TUE-8", "FRI-9", "FRI-10"],
+                        code: "L44-BCSE203E-ELA-AB3-613-ALL"
+                    }
+                ]
+            },
+            {
+                id: "BCSE302P",
+                name: "Compiler Design",
+                credits: 4,
+                sections: [
+                    {
+                        instructor: "Dr. V.K. Trivedi",
+                        roomNo: "AB1-614",
+                        slots: ["TUE-7", "TUE-8"],
+                        code: "BCSE302P-LO-AB1-614-ALL"
+                    },
+                    {
+                        instructor: "Dr. S. Verma",
+                        roomNo: "AB1-615",
+                        slots: ["WED-7", "WED-8"],
+                        code: "BCSE302P-LO-AB1-615-ALL"
+                    }
+                ]
+            },
+            {
+                id: "BCSE303P",
+                name: "Database Lab",
+                credits: 2,
+                sections: [
+                    {
+                        instructor: "Dr. A.K. Jha",
+                        roomNo: "AB3-302",
+                        slots: ["FRI-5", "FRI-6"],
+                        code: "BCSE303P-LO-AB3-302-ALL"
+                    },
+                    {
+                        instructor: "Dr. M. Singh",
+                        roomNo: "AB3-303",
+                        slots: ["THU-5", "THU-6"],
+                        code: "BCSE303P-LO-AB3-303-ALL"
+                    }
+                ]
+            }
+        ],
+        "lab": [
+            {
+                id: "BCSE204P",
+                name: "Data Structures Lab",
+                credits: 2,
+                sections: [
+                    {
+                        instructor: "Dr. R. Kumar",
+                        roomNo: "AB3-401",
+                        slots: ["MON-7", "MON-8"],
+                        code: "L1-BCSE204P-LAB-AB3-401-ALL"
+                    },
+                    {
+                        instructor: "Dr. S. Sharma",
+                        roomNo: "AB3-402",
+                        slots: ["TUE-7", "TUE-8"],
+                        code: "L2-BCSE204P-LAB-AB3-402-ALL"
+                    }
+                ]
+            },
+            {
+                id: "BCSE205P",
+                name: "Computer Networks Lab",
+                credits: 2,
+                sections: [
+                    {
+                        instructor: "Dr. A. Verma",
+                        roomNo: "AB3-403",
+                        slots: ["WED-7", "WED-8"],
+                        code: "L3-BCSE205P-LAB-AB3-403-ALL"
+                    },
+                    {
+                        instructor: "Dr. P. Kumar",
+                        roomNo: "AB3-404",
+                        slots: ["THU-7", "THU-8"],
+                        code: "L4-BCSE205P-LAB-AB3-404-ALL"
+                    }
+                ]
+            },
+            {
+                id: "BCSE206P",
+                name: "Database Systems Lab",
+                credits: 2,
+                sections: [
+                    {
+                        instructor: "Dr. M. Gupta",
+                        roomNo: "AB3-405",
+                        slots: ["FRI-7", "FRI-8"],
+                        code: "L5-BCSE206P-LAB-AB3-405-ALL"
+                    },
+                    {
+                        instructor: "Dr. K. Singh",
+                        roomNo: "AB3-406",
+                        slots: ["MON-9", "MON-10"],
+                        code: "L6-BCSE206P-LAB-AB3-406-ALL"
+                    }
+                ]
+            }
+        ]
+    }
+};
 
-    
-        fetch('courseList.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to load JSON');
+const timeSlots = [
+    { id: "1", start: "08:00", end: "08:50" },
+    { id: "2", start: "08:55", end: "09:45" },
+    { id: "3", start: "09:50", end: "10:40" },
+    { id: "4", start: "10:45", end: "11:35" },
+    { id: "5", start: "11:40", end: "12:30" },
+    { id: "6", start: "12:35", end: "13:25" },
+    { id: "L", start: "13:25", end: "14:00", isLunch: true },
+    { id: "7", start: "14:00", end: "14:50" },
+    { id: "8", start: "14:55", end: "15:45" },
+    { id: "9", start: "15:50", end: "16:40" },
+    { id: "10", start: "16:45", end: "17:35" },
+    { id: "11", start: "17:40", end: "18:30" }
+];
+
+const days = ["MON", "TUE", "WED", "THU", "FRI"];
+const selectedCourses = [];
+const occupiedSlots = {};
+const MAX_CREDITS = 27;
+
+document.addEventListener("DOMContentLoaded", function() {
+    renderCourseCategories();
+    generateTimetable();
+    setupEventListeners();
+    updateTotalCredits();
+});
+        function renderCourseCategories() {
+            const categoriesContainer = document.getElementById("course-categories");
+            categoriesContainer.innerHTML = "";
+
+            courseData.categories.forEach(category => {
+                const categorySection = document.createElement("div");
+                categorySection.className = "category-section";
+                
+                const accordionBtn = document.createElement("button");
+                accordionBtn.className = "accordion";
+                accordionBtn.textContent = category.name;
+                
+                const badge = document.createElement("span");
+                badge.className = "badge";
+                badge.textContent = courseData.courses[category.id].length;
+                accordionBtn.appendChild(badge);
+                
+                const panel = document.createElement("div");
+                panel.className = "panel";
+                
+                const courseList = document.createElement("div");
+                courseList.className = "course-list";
+                
+                courseData.courses[category.id].forEach(course => {
+                    const courseItem = document.createElement("div");
+                    courseItem.className = "course-item";
+                    courseItem.innerHTML = `
+                        <h4>${course.id}: ${course.name}</h4>
+                        <p>Credits: ${course.credits}</p>
+                        <div class="instructor-options">
+                            <p><strong>Available Sections:</strong></p>
+                        </div>
+                    `;
+                    
+                    const instructorOptions = courseItem.querySelector(".instructor-options");
+                    
+                    course.sections.forEach(section => {
+                        const instructorOption = document.createElement("div");
+                        instructorOption.className = "instructor-option";
+                        instructorOption.dataset.courseId = course.id;
+                        instructorOption.dataset.courseName = course.name;
+                        instructorOption.dataset.credits = course.credits;
+                        instructorOption.dataset.instructor = section.instructor;
+                        instructorOption.dataset.roomNo = section.roomNo;
+                        instructorOption.dataset.slots = JSON.stringify(section.slots);
+                        instructorOption.dataset.code = section.code;
+                        
+                        const slotTimes = section.slots.map(slot => {
+                            const [day, slotNum] = slot.split("-");
+                            const timeSlot = timeSlots[parseInt(slotNum) - 1];
+                            return `${day} ${timeSlot.start}-${timeSlot.end}`;
+                        }).join(", ");
+                        
+                        instructorOption.innerHTML = `
+                            <p><strong>Instructor:</strong> ${section.instructor}</p>
+                            <p><strong>Room:</strong> ${section.roomNo}</p>
+                            <p><strong>Times:</strong> <span class="time-info">${slotTimes}</span></p>
+                            <p><strong>Code:</strong> ${section.code}</p>
+                        `;
+                        
+                        instructorOption.addEventListener("click", function() {
+                            toggleCourseSelection(this);
+                        });
+                        
+                        instructorOptions.appendChild(instructorOption);
+                    });
+                    
+                    courseList.appendChild(courseItem);
+                });
+                
+                panel.appendChild(courseList);
+                categorySection.appendChild(accordionBtn);
+                categorySection.appendChild(panel);
+                categoriesContainer.appendChild(categorySection);
+            });
+
+            const accordions = document.getElementsByClassName("accordion");
+            for (let i = 0; i < accordions.length; i++) {
+                accordions[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    const panel = this.nextElementSibling;
+                    if (panel.style.maxHeight) {
+                        panel.style.maxHeight = null;
+                    } else {
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    }
+                });
+            }
+        }
+        function generateTimetable() {
+            const timetable = document.getElementById("timetable");
+            const tbody = timetable.querySelector("tbody");
+            tbody.innerHTML = "";
+            
+            timeSlots.forEach(slot => {
+                const row = document.createElement("tr");
+                
+                const timeCell = document.createElement("td");
+                timeCell.className = "time-slot";
+                timeCell.innerHTML = `${slot.start}<br>-<br>${slot.end}`;
+                row.appendChild(timeCell);
+                
+                if (slot.isLunch) {
+                    const lunchCell = document.createElement("td");
+                    lunchCell.colSpan = 5;
+                    lunchCell.textContent = "LUNCH BREAK";
+                    lunchCell.style.backgroundColor = "#f8c291";
+                    lunchCell.style.fontWeight = "bold";
+                    row.appendChild(lunchCell);
+                } else {
+                    days.forEach(day => {
+                        const dayCell = document.createElement("td");
+                        dayCell.dataset.slot = `${day}-${slot.id}`;
+                        row.appendChild(dayCell);
+                    });
                 }
-                return response.json();
-            })
-            .then(courseList => {
-                courses = courseList.courses;
-                displayCourses(courses);
-            })
-            .catch(error => console.error('Error loading JSON:', error));
-
-        
-        function searchCourses() {
-            const query = document.getElementById("searchBox").value.toLowerCase();
-            const filteredCourses = courses.filter(course =>
-                course.code.toLowerCase().includes(query) ||
-                course.title.toLowerCase().includes(query)
-            );
-            displayCourses(filteredCourses);
+                
+                tbody.appendChild(row);
+            });
         }
 
-        
-        function selectCourse(courseCode) {
-            alert(`Course ${courseCode} selected!`);
-            localStorage.setItem("selectedCourse",courseCode);
+        function updateTimetable() {
+            const cells = document.querySelectorAll("[data-slot]");
+            cells.forEach(cell => {
+                cell.innerHTML = "";
+                cell.className = "";
+            });
             
-            const slotPages = {
-                
-                "BCHY101L": "BCHY101L.html",
-                "BMAT101L": "BMAT101L.html",
-                "BMAT102L": "BMAT102L.html"
-                
-            };
+            selectedCourses.forEach(course => {
+                const slots = JSON.parse(course.slots);
+                slots.forEach(slot => {
+                    const cell = document.querySelector(`[data-slot="${slot}"]`);
+                    if (cell) {
+                        const courseElement = document.createElement("div");
+                        courseElement.className = "course-slot selected-course";
+                        courseElement.innerHTML = `
+                            <strong>${course.courseId}</strong><br>
+                            ${course.instructor}<br>
+                            ${course.roomNo}
+                        `;
+                        cell.appendChild(courseElement);
+                    }
+                });
+            });
+        }
 
-            if (slotPages[courseCode]) {
-                window.location.href = slotPages[courseCode];
+        function updateTotalCredits() {
+            const totalCredits = selectedCourses.reduce((sum, course) => sum + course.credits, 0);
+            document.getElementById("total-credits").textContent = totalCredits;
+            
+            const creditsElement = document.getElementById("total-credits");
+            if (totalCredits > MAX_CREDITS) {
+                creditsElement.classList.add("credits-warning");
             } else {
-                alert("Slot page not found for this course.");
+                creditsElement.classList.remove("credits-warning");
+            }
+        }
+        function checkSlotConflicts(slots, courseId) {
+            const slotArray = JSON.parse(slots);
+            for (let slot of slotArray) {
+                if (occupiedSlots[slot]) {
+                    const conflictingCourse = selectedCourses.find(c => {
+                        const courseSlots = JSON.parse(c.slots);
+                        return courseSlots.includes(slot) && c.courseId === courseId;
+                    });
+                    
+                    if (!conflictingCourse) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function toggleCourseSelection(option) {
+            const courseId = option.dataset.courseId;
+            const courseName = option.dataset.courseName;
+            const credits = parseInt(option.dataset.credits);
+            const instructor = option.dataset.instructor;
+            const roomNo = option.dataset.roomNo;
+            const slots = option.dataset.slots;
+            const code = option.dataset.code;
+            
+            const existingIndex = selectedCourses.findIndex(c => c.code === code);
+            
+            if (existingIndex !== -1) {
+                
+                const removedCourse = selectedCourses.splice(existingIndex, 1)[0];
+                JSON.parse(removedCourse.slots).forEach(slot => {
+                    delete occupiedSlots[slot];
+                });
+                
+                option.classList.remove("selected");
+                updateSelectedCoursesList();
+                updateTimetable();
+                updateTotalCredits();
+            } else {
+                const sameCourseIndex = selectedCourses.findIndex(c => c.courseId === courseId);
+                if (sameCourseIndex !== -1) {
+                    const removedCourse = selectedCourses.splice(sameCourseIndex, 1)[0];
+                    
+                    JSON.parse(removedCourse.slots).forEach(slot => {
+                        delete occupiedSlots[slot];
+                    });
+                    
+                    document.querySelectorAll(".instructor-option").forEach(opt => {
+                        if (opt.dataset.code === removedCourse.code) {
+                            opt.classList.remove("selected");
+                        }
+                    });
+                }
+                if (checkSlotConflicts(slots, courseId)) {
+                    alert("Time slot conflict! This course conflicts with your existing selections.");
+                    return;
+                }
+                const currentCredits = selectedCourses.reduce((sum, course) => sum + course.credits, 0);
+                if (currentCredits + credits > MAX_CREDITS) {
+                    alert(`Cannot add this course. Total credits would exceed the maximum limit of ${MAX_CREDITS} credits.`);
+                    return;
+                }
+                
+                const courseObj = {
+                    courseId,
+                    courseName,
+                    credits,
+                    instructor,
+                    roomNo,
+                    slots,
+                    code
+                };
+                
+                selectedCourses.push(courseObj);
+                JSON.parse(slots).forEach(slot => {
+                    occupiedSlots[slot] = true;
+                });
+                option.classList.add("selected");
+                updateSelectedCoursesList();
+                updateTimetable();
+                updateTotalCredits();
             }
         }
 
-        function displayCourses(courseList) {
-            const tableBody = document.getElementById("courseTable");
-            tableBody.innerHTML = "";
+        function updateSelectedCoursesList() {
+            const coursesList = document.getElementById("selected-courses-list");
+            const courseCount = document.getElementById("course-count");
+            
+            coursesList.innerHTML = "";
+            courseCount.textContent = selectedCourses.length;
+            
+            if (selectedCourses.length === 0) {
+                coursesList.innerHTML = "<p>No courses selected yet.</p>";
+                return;
+            }
+            
+            selectedCourses.forEach(course => {
+                const courseItem = document.createElement("div");
+                courseItem.className = "selected-course-item";
+                
+                courseItem.innerHTML = `
+                    <div>
+                        <strong>${course.courseId}: ${course.courseName}</strong><br>
+                        Instructor: ${course.instructor}<br>
+                        Credits: ${course.credits}
+                    </div>
+                    <button class="remove-course" data-code="${course.code}">Remove</button>
+                `;
+                
+                coursesList.appendChild(courseItem);
+            });
+            document.querySelectorAll(".remove-course").forEach(button => {
+                button.addEventListener("click", function() {
+                    const code = this.dataset.code;
+                    removeCourse(code);
+                });
+            });
+        }
 
-            courseList.forEach(course => {
-                const row = `
-                    <tr>
-                        <td>${course.code}</td>
-                        <td>${course.title}</td>
-                        <td>${course.type}</td>
-                        <td>${course.credits}</td>
-                        <td>
-                            <button class="select-btn" onclick="selectCourse('${course.code}')">Select</button>
-                        </td>
-                    </tr>`;
-                tableBody.innerHTML += row;
+        function removeCourse(code) {
+            const index = selectedCourses.findIndex(c => c.code === code);
+            if (index !== -1) {
+                const removedCourse = selectedCourses.splice(index, 1)[0];
+                JSON.parse(removedCourse.slots).forEach(slot => {
+                    delete occupiedSlots[slot];
+                });
+                document.querySelectorAll(".instructor-option").forEach(option => {
+                    if (option.dataset.code === code) {
+                        option.classList.remove("selected");
+                    }
+                });
+                updateSelectedCoursesList();
+                updateTimetable();
+                updateTotalCredits();
+            }
+        }
+
+        function clearAllSelections() {
+            selectedCourses.length = 0;
+            
+            for (let key in occupiedSlots) {
+                delete occupiedSlots[key];
+            }
+            document.querySelectorAll(".instructor-option").forEach(option => {
+                option.classList.remove("selected");
+            });
+            
+            updateSelectedCoursesList();
+            updateTimetable();
+            updateTotalCredits();
+        }
+
+        function printTimetable() {
+            const printWindow = window.open('', '_blank');
+            
+            const timetable = document.getElementById('timetable').cloneNode(true);
+
+            const printContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Course Timetable</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; }
+                        table { border-collapse: collapse; width: 100%; }
+                        th, td { border: 1px solid black; padding: 8px; text-align: center; }
+                        th { background-color: #f2f2f2; }
+                        .course-slot { background-color: #a7e9a7; padding: 5px; border-radius: 3px; }
+                        .header { text-align: center; margin-bottom: 20px; }
+                        .credits-info { text-align: right; margin-top: 20px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>Course Timetable</h1>
+                        <p>Generated on ${new Date().toLocaleDateString()}</p>
+                    </div>
+                    ${timetable.outerHTML}
+                    <div class="credits-info">
+                        <p>Total Credits: ${document.getElementById('total-credits').textContent}/27</p>
+                    </div>
+                    <div class="selected-courses">
+                        <h3>Selected Courses</h3>
+                        ${document.getElementById('selected-courses-list').innerHTML}
+                    </div>
+                </body>
+                </html>
+            `;
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.onload = function() {
+                printWindow.print();
+            };
+        }
+        function setupEventListeners() {
+            document.getElementById("print-timetable").addEventListener("click", function() {
+                printTimetable();
+            });
+            document.getElementById("clear-selections").addEventListener("click", function() {
+                if (confirm("Are you sure you want to clear all your course selections?")) {
+                    clearAllSelections();
+                }
             });
         }
         if (localStorage.getItem('darkMode') === 'enabled') {
             document.body.classList.add('dark-mode');
-    }
-
+        }
     </script>
-
 </body>
-
 </html>
