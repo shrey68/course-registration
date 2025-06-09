@@ -1,1 +1,1 @@
-# course-registration
+# course-registration website
