@@ -46,9 +46,8 @@ To resolve these issues, this project introduces a seamless web-based platform a
 ## Key Features and Functionalities
 
 ### User Authentication
-- Login using registration number and password  
-- CAPTCHA verification to prevent bot access  
-
+- Login using registration number and password
+  
 ### Course Search and Filtering
 - Search by course code or name  
 - Dynamic filtering options for efficient discovery  
